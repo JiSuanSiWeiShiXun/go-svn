@@ -32,13 +32,27 @@ func NewSVNClient(opt *SVNOption) (*SVNClient, error) {
 	return &SVNClient{SVNOption: *opt}, nil
 }
 
+// GetAuthOption 返回鉴权的命令行参数
+func (sc SVNClient) GetAuthOption() (options []string) {
+    options = make([]string, 0)
+    if sc.User != "" {
+        options = append(options, "--username", sc.User)
+    }
+    if sc.Passwd != "" {
+        options = append(options, "--password", sc.Passwd)
+    }
+    return
+}
+
 // SVNCheckout 检出svn指定路径的文件
 func (sc SVNClient) Checkout(localPath ...string) error {
-	cmdStr := []string{"checkout", sc.URL}
+	cmdSlice := []string{"checkout", sc.URL}
 	if localPath != nil {
-		cmdStr = append(cmdStr, localPath[0])
+	    cmdSlice = append(cmdSlice, localPath[0])
 	}
-	cmd := exec.Command(sc.SVNPath, cmdStr...)
+	cmdSlice = append(cmdSlice, sc.GetAuthOption()...)
+
+	cmd := exec.Command(sc.SVNPath, cmdSlice...)
 	cmd.Stdout = log.Logger.Writer()
 	cmd.Stderr = log.Logger.Writer()
 	log.Debug(cmd.String())

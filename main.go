@@ -16,7 +16,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = sc.Checkout()
+	err = sc.Checkout(`./temp`)
 	if err != nil {
 		panic(err)
 	}
