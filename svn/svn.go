@@ -2,7 +2,6 @@ package svn
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"os/exec"
 	"strings"
@@ -85,7 +84,7 @@ func (sc SVNClient) Blame(file string) (svnBlames []*SVNBlame, err error) {
 			Date:     strings.Join(lineSlice[2:5], " "), // e.g. `2022-11-24 14:03:08 +0800 (Thu, 24 Nov 2022)`
 			Content:  strings.Join(lineSlice[6:], " "),
 		}
-		fmt.Println(svnBlame.Revision, svnBlame.Author, svnBlame.Date, svnBlame.Content)
+		// fmt.Printf("[0]%v [1]%v [2]%v [3]%v\n", svnBlame.Revision, svnBlame.Author, svnBlame.Date, svnBlame.Content)
 		svnBlames = append(svnBlames, svnBlame)
 	}
 }

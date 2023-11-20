@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/JiSuanSiWeiShiXun/go-svn/svn"
+
+	"github.com/JiSuanSiWeiShiXun/log"
 )
 
 func main() {
@@ -16,8 +18,15 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = sc.Checkout(`./temp`)
+	if err = sc.Checkout(`./temp`); err != nil {
+		panic(err)
+	}
+
+	svnBlames, err := sc.Blame(`./temp/GachaControl.tab`)
 	if err != nil {
 		panic(err)
 	}
+
+	cnt := 2
+	log.Info("[line]%d 最新提交信息 %+v", cnt, svnBlames[cnt])
 }
