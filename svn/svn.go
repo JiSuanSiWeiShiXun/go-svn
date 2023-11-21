@@ -10,15 +10,25 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// NewSVNClient 初始化svn操作对象
-func NewSVNClient(opt *SVNOption) (*SVNClient, error) {
-	if opt.SVNPath == "" {
-		opt.SVNPath = "svn"
+// NewClient 实现成svn工厂结构的方法，是为了方便以后扩展（这里的扩展不是为了扩展产品，而是扩展工厂
+// 也就是在使用工厂对象的函数，如NewClient 时，对具体时哪个工厂无感）
+// 实际也可以直接实现成函数
+func (SVNFactory) NewClient(opts ...SVNOption) (*SVNClient, error) {
+	conf := &SVNConfig{
+		SVNPath: "svn", // 默认svn加入了环境变量
+		SVNRepo: &SVNRepo{},
 	}
-	if opt.URL == "" {
+	for _, opt := range opts {
+		opt(conf)
+	}
+
+	if conf.URL == "" {
 		return nil, ErrInvalidURL
 	}
-	return &SVNClient{SVNOption: *opt}, nil
+	if conf.SVNPath == "" {
+		return nil, ErrInvalidSVNPath
+	}
+	return &SVNClient{SVNConfig: conf}, nil
 }
 
 // GetAuthOption 返回鉴权的命令行参数

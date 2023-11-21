@@ -7,14 +7,11 @@ import (
 )
 
 func main() {
-	opt := svn.SVNOption{
-		SVNRepo: svn.SVNRepo{
-			URL:    "https://xsjreposvr7.seasungame.com/svn/FSM/trunk/MechaWar/Client/Projects/Runtime/Settings/Table",
-			User:   "wangjiaojiao1",
-			Passwd: "wjflying0.ai",
-		},
-	}
-	sc, err := svn.NewSVNClient(&opt)
+	sc, err := svn.SVNFactory{}.NewClient(
+		svn.WithSVNUrl("https://xsjreposvr7.seasungame.com/svn/FSM/trunk/MechaWar/Client/Projects/Runtime/Settings/Table"),
+		svn.WithSVNUser("wangjiaojiao1"),
+		svn.WithSVNPasswd("wjflying0.ai"),
+	)
 	if err != nil {
 		panic(err)
 	}
