@@ -66,7 +66,7 @@ func (sc SVNClient) Blame(file string) (svnBlames []SVNBlame, err error) {
 
 	cmd := exec.Command(sc.SVNPath, args...)
 	var buf bytes.Buffer
-	writers := io.MultiWriter(log.Logger.WriterLevel(logrus.DebugLevel), &buf)
+	writers := io.MultiWriter(log.Logger.WriterLevel(logrus.TraceLevel), &buf)
 	cmd.Stdout = writers
 	cmd.Stderr = log.Logger.WriterLevel(logrus.ErrorLevel)
 	log.Debug("[invoke] %s", cmd.String())
