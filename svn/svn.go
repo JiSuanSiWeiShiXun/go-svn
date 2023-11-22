@@ -76,7 +76,7 @@ func (sc SVNClient) Blame(file string) (svnBlames []SVNBlame, err error) {
 	}
 
 	// 逐行解析
-	for {
+	for i := 1; ; i++ {
 		var line string
 		line, err = buf.ReadString('\n')
 		if err != nil {
@@ -93,6 +93,7 @@ func (sc SVNClient) Blame(file string) (svnBlames []SVNBlame, err error) {
 			Author:   lineSlice[1],
 			Date:     strings.Join(lineSlice[2:9], " "), // e.g. `2022-11-24 14:03:08 +0800 (Thu, 24 Nov 2022)`
 			Content:  strings.Join(lineSlice[9:], " "),
+			Order:    i,
 		}
 		// fmt.Printf("[0]%v [1]%v [2]%v [3]%v\n", svnBlame.Revision, svnBlame.Author, svnBlame.Date, svnBlame.Content)
 		svnBlames = append(svnBlames, svnBlame)
