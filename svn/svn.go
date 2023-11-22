@@ -59,8 +59,8 @@ func (sc SVNClient) Checkout(localPath ...string) error {
 }
 
 // SVNBlame 获取指定文件的每行最近提交信息
-func (sc SVNClient) Blame(file string) (svnBlames []*SVNBlame, err error) {
-	svnBlames = make([]*SVNBlame, 0)
+func (sc SVNClient) Blame(file string) (svnBlames []SVNBlame, err error) {
+	svnBlames = make([]SVNBlame, 0)
 	args := []string{"blame", "-v", file}
 	args = append(args, sc.GetAuthOption()...)
 
@@ -88,7 +88,7 @@ func (sc SVNClient) Blame(file string) (svnBlames []*SVNBlame, err error) {
 			return
 		}
 		lineSlice := strings.Fields(line)
-		svnBlame := &SVNBlame{
+		svnBlame := SVNBlame{
 			Revision: lineSlice[0],
 			Author:   lineSlice[1],
 			Date:     strings.Join(lineSlice[2:9], " "), // e.g. `2022-11-24 14:03:08 +0800 (Thu, 24 Nov 2022)`
