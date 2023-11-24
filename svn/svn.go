@@ -59,9 +59,9 @@ func (sc SVNClient) Checkout(localPath ...string) error {
 }
 
 // SVNBlame 获取指定文件的每行最近提交信息
-func (sc SVNClient) Blame(file string) (svnBlames []SVNBlame, err error) {
+func (sc SVNClient) Blame(file, revision string) (svnBlames []SVNBlame, err error) {
 	svnBlames = make([]SVNBlame, 0)
-	args := []string{"blame", "-v", file}
+	args := []string{"blame", "-v", file, "-r", revision}
 	args = append(args, sc.GetAuthOption()...)
 
 	cmd := exec.Command(sc.SVNPath, args...)

@@ -19,7 +19,7 @@ func main() {
 		panic(err)
 	}
 
-	svnBlames, err := sc.Blame(`./temp/GachaControl.tab`)
+	svnBlames, err := sc.Blame(`./temp/GachaControl.tab`, "HEAD")
 	if err != nil {
 		panic(err)
 	}
